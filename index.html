@@ -68,6 +68,21 @@
     0%,100%{ box-shadow:0 0 5px 1px rgba(139,224,138,.75); }
     50%{ box-shadow:0 0 12px 5px rgba(139,224,138,.9); }
   }
+  .rosterItem.raijinItem .rosterDot{ animation:raijinPulse .85s infinite; border-color:rgba(255,225,77,.9); }
+  @keyframes raijinPulse{
+    0%,100%{ box-shadow:0 0 5px 1px rgba(255,225,77,.75); }
+    50%{ box-shadow:0 0 14px 6px rgba(255,225,77,.95); }
+  }
+  .rosterItem.fujinItem .rosterDot{ animation:fujinPulse 1.2s infinite; border-color:rgba(139,224,200,.9); }
+  @keyframes fujinPulse{
+    0%,100%{ box-shadow:0 0 5px 1px rgba(139,224,200,.75); }
+    50%{ box-shadow:0 0 12px 5px rgba(139,224,200,.9); }
+  }
+  .rosterItem.flameEmperorItem .rosterDot{ animation:flameEmperorPulse .7s infinite; border-color:rgba(255,90,31,.95); }
+  @keyframes flameEmperorPulse{
+    0%,100%{ box-shadow:0 0 6px 2px rgba(255,90,31,.85); }
+    50%{ box-shadow:0 0 16px 7px rgba(255,140,40,1); }
+  }
 
   #barsRow{display:flex; align-items:center; gap:10px;}
   .fname{font-family:'Cinzel',serif; font-weight:900; font-size:13px; color:var(--bone); letter-spacing:.06em; text-shadow:0 2px 4px #000;}
@@ -91,20 +106,30 @@
     text-shadow:0 0 8px rgba(0,0,0,.8); white-space:nowrap;
   }
 
+  #muteBtn{
+    position:fixed; top:max(10px, env(safe-area-inset-top)); right:10px; z-index:30;
+    width:34px; height:34px; border-radius:50%; pointer-events:all;
+    background:linear-gradient(160deg,rgba(36,26,18,.86),rgba(14,10,8,.9));
+    border:1px solid var(--gold-dim); color:var(--bone); font-size:15px;
+    box-shadow:inset 0 0 0 1px rgba(201,162,39,.2), 0 4px 12px rgba(0,0,0,.5);
+    display:flex; align-items:center; justify-content:center;
+  }
+  #muteBtn.muted{ color:var(--bone-dim); }
+
   /* ---- Shop overlay ---- */
-  #shopOverlay{
+  #shopOverlay, #smithOverlay, #gambleOverlay, #healOverlay{
     position:fixed; top:96px; left:0; right:0; z-index:25;
     display:flex; justify-content:center; pointer-events:none;
   }
-  #shopPanel{
+  #shopPanel, #smithPanel, #gamblePanel, #healPanel{
     pointer-events:all; width:82%; max-width:300px; text-align:center;
     box-shadow:inset 0 0 0 1px rgba(201,162,39,.25), 0 8px 22px rgba(0,0,0,.6);
   }
-  #shopGold{
+  #shopGold, .shopSubText{
     font-family:'Cinzel',serif; font-weight:700; font-size:13px; color:var(--gold);
     text-align:center; margin:2px 0 8px;
   }
-  #shopList{ display:flex; flex-direction:column; gap:6px; max-height:44vh; overflow-y:auto; }
+  #shopList, #gambleList{ display:flex; flex-direction:column; gap:6px; max-height:44vh; overflow-y:auto; }
   .shopItemBtn{
     display:flex; align-items:center; justify-content:space-between; gap:8px;
     width:100%; font-family:'Noto Serif JP',serif; font-size:12.5px; color:var(--bone);
@@ -115,7 +140,30 @@
   .shopItemBtn .ic{ font-size:17px; }
   .shopItemBtn .nm{ flex:1; text-align:left; margin-left:6px; }
   .shopItemBtn .pr{ color:var(--gold); font-weight:700; white-space:nowrap; }
-  #shopLeaveBtn{ margin-top:10px; padding:9px 24px; font-size:13px; }
+  #shopLeaveBtn, #smithLeaveBtn, #gambleLeaveBtn, #healLeaveBtn{ margin-top:10px; padding:9px 24px; font-size:13px; }
+  #healPayBtn{ margin-top:6px; padding:10px 12px; font-size:12.5px; }
+
+  #gambleCoin{ width:58px; height:58px; margin:2px auto 10px; perspective:500px; }
+  #gambleCoin .coinFace{
+    width:58px; height:58px; border-radius:50%;
+    background:radial-gradient(circle at 34% 28%, #fff6d8, var(--gold) 55%, var(--gold-dim) 100%);
+    border:2px solid #7a5f12;
+    display:flex; align-items:center; justify-content:center; font-size:30px;
+    box-shadow:0 6px 16px rgba(0,0,0,.65), inset 0 0 8px rgba(255,255,255,.45);
+    will-change:transform;
+  }
+  #gambleCoin.flipping .coinFace{ animation:coinTossAnim .55s cubic-bezier(.3,.1,.3,1); }
+  @keyframes coinTossAnim{
+    0%  { transform:translateY(0)    rotateY(0deg)    scaleX(1);   }
+    15% { transform:translateY(-22px) rotateY(360deg)  scaleX(.15); }
+    30% { transform:translateY(-36px) rotateY(720deg)  scaleX(1);   }
+    45% { transform:translateY(-30px) rotateY(1080deg) scaleX(.15); }
+    60% { transform:translateY(-16px) rotateY(1440deg) scaleX(1);   }
+    75% { transform:translateY(-6px)  rotateY(1800deg) scaleX(.15); }
+    90% { transform:translateY(-1px)  rotateY(2080deg) scaleX(1);   }
+    100%{ transform:translateY(0)     rotateY(2160deg)  scaleX(1);   }
+  }
+  #smithUpgradeBtn{ margin-top:6px; padding:10px 12px; font-size:12.5px; }
 
   #centerMsg{
     position:fixed; top:38%; left:50%; transform:translate(-50%,-50%);
@@ -215,7 +263,19 @@
     <div class="fname" id="bossName" style="color:var(--arcane); text-align:center;">氷帝</div>
     <div class="barTrack"><div class="barFill hpFill" id="bossHp" style="width:100%; background:linear-gradient(180deg,#cfeeff,#4fa8e0); box-shadow:0 0 6px rgba(127,217,255,.8);"></div></div>
   </div>
+  <div class="panel" id="assassinPanel" style="display:none;">
+    <div id="raijinRow">
+      <div class="fname" style="color:#ffe14d; text-align:center; font-size:12px;">雷神</div>
+      <div class="barTrack"><div class="barFill hpFill" id="raijinHp" style="width:100%; background:linear-gradient(180deg,#fff6b0,#e0b62a); box-shadow:0 0 6px rgba(255,225,77,.8);"></div></div>
+    </div>
+    <div id="fujinRow" style="margin-top:5px;">
+      <div class="fname" style="color:#8be0c8; text-align:center; font-size:12px;">風神</div>
+      <div class="barTrack"><div class="barFill hpFill" id="fujinHp" style="width:100%; background:linear-gradient(180deg,#d8fff0,#4bb894); box-shadow:0 0 6px rgba(139,224,200,.8);"></div></div>
+    </div>
+  </div>
 </div>
+
+<button id="muteBtn" type="button" aria-label="音量切替">🔊</button>
 
 <div id="centerMsg"></div>
 
@@ -228,6 +288,37 @@
   </div>
 </div>
 
+<div id="smithOverlay" style="display:none;">
+  <div class="panel" id="smithPanel">
+    <div class="eyebrow" style="color:#ff9a5e; text-align:center;">鍛冶屋</div>
+    <div id="smithGold" class="shopSubText"></div>
+    <div id="smithLevel" class="shopSubText"></div>
+    <button class="btn" id="smithUpgradeBtn" style="width:100%;">強化する</button>
+    <button class="btn" id="smithLeaveBtn">立ち去る</button>
+  </div>
+</div>
+
+<div id="gambleOverlay" style="display:none;">
+  <div class="panel" id="gamblePanel">
+    <div class="eyebrow" style="color:#c58bff; text-align:center;">賭博場</div>
+    <div id="gambleGold" class="shopSubText"></div>
+    <div id="gambleCoin" style="display:none;"><div class="coinFace">🪙</div></div>
+    <div id="gambleList"></div>
+    <div id="gambleResult" class="shopSubText"></div>
+    <button class="btn" id="gambleLeaveBtn">立ち去る</button>
+  </div>
+</div>
+
+<div id="healOverlay" style="display:none;">
+  <div class="panel" id="healPanel">
+    <div class="eyebrow" style="color:#8fe08a; text-align:center;">療養所</div>
+    <div id="healGold" class="shopSubText"></div>
+    <div id="healDesc" class="shopSubText"></div>
+    <button class="btn" id="healPayBtn" style="width:100%;">治療費を払う</button>
+    <button class="btn" id="healLeaveBtn">立ち去る</button>
+  </div>
+</div>
+
 <div id="controls">
   <div id="joyZone"><div id="joyBase"></div><div id="joyNub"></div></div>
   <div id="actionZone">
@@ -237,14 +328,14 @@
     <div class="abtn" id="btnAttack"><div class="ic">⚔</div><div class="lbl">斬撃</div></div>
   </div>
 </div>
-<div id="hintBar">左：移動　／　右下：斬撃・防御・跳躍・魔法　／　アイテムは踏むと拾う　／　家に隠れられる（被弾2回で崩壊、殺人鬼は迷わず叩き壊す）　／　家のうち2軒は店（金貨で購入可、破壊されたら即終了）　（PC: WASD移動 / J攻撃 K魔法 L跳躍 Shift防御）</div>
+<div id="hintBar">左：移動　／　右下：斬撃・防御・跳躍・魔法　／　アイテムは踏むと拾う　／　家に隠れられる（被弾2回で崩壊、殺人鬼は迷わず叩き壊す）　／　4軒の家：💰店（購入）・➕回復の家（滞在でHP/MP回復）・⚒️鍛冶屋（金貨で攻撃力強化）・🎲賭博場（全財産をコイントスに一度だけ賭ける、表2倍/裏没収）、いずれも破壊されたら即終了　（PC: WASD移動 / J攻撃 K魔法 L跳躍 Shift防御）</div>
 
 <div id="startOverlay">
   <div class="eyebrow">BATTLE ROYALE ARENA</div>
   <h1 class="title">THE PIT</h1>
   <div class="charPreview" id="charPreview"></div>
   <button class="btn" id="startBtn">闘技場へ入る</button>
-  <div class="subtitle">六人の闘士が闘技場で殺し合う。生き残れば勝利。アイテムを拾い、家に隠れ、店で買い物もできる。村人を殺すと全員に狙われるので注意。</div>
+  <div class="subtitle">六人の闘士が闘技場で殺し合う。生き残れば勝利。アイテムを拾い、家に隠れよう。4軒の家にはそれぞれ機能がある：💰店・➕回復の家・⚒️鍛冶屋・🎲賭博場。村人を殺すと全員に狙われるので注意。</div>
 </div>
 
 <div id="endOverlay">
@@ -271,6 +362,113 @@ function resize(){
 window.addEventListener('resize', resize);
 resize();
 
+/* ============ SFX (Web Audio APIによる効果音合成。外部音声ファイルは使わない) ============ */
+const SFX = (function(){
+  let actx = null;
+  let master = null;
+  let muted = false;
+
+  function ensureCtx(){
+    if(!actx){
+      try{
+        actx = new (window.AudioContext||window.webkitAudioContext)();
+        master = actx.createGain();
+        master.gain.value = 0.5;
+        master.connect(actx.destination);
+      }catch(e){ actx = null; }
+    }
+    if(actx && actx.state==='suspended'){ actx.resume().catch(()=>{}); }
+    return actx;
+  }
+
+  // 単音（オシレーター）を鳴らす。sweepToを指定すると周波数が滑らかに変化する。
+  function tone(freq, dur, opts){
+    opts = opts||{};
+    const c = ensureCtx();
+    if(!c || muted) return;
+    const t0 = c.currentTime;
+    const osc = c.createOscillator();
+    osc.type = opts.type || 'sine';
+    osc.frequency.setValueAtTime(Math.max(1,freq), t0);
+    if(opts.sweepTo!=null) osc.frequency.exponentialRampToValueAtTime(Math.max(1,opts.sweepTo), t0+dur);
+    const g = c.createGain();
+    const vol = Math.max(0.0001, (opts.vol!=null? opts.vol : 0.25));
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(vol, t0+(opts.attack||0.008));
+    g.gain.exponentialRampToValueAtTime(0.0001, t0+dur);
+    osc.connect(g); g.connect(master);
+    osc.start(t0); osc.stop(t0+dur+0.02);
+  }
+
+  // ノイズ（衝撃音・風切り音などに使うホワイトノイズ、フィルタで音色付け）
+  function noise(dur, opts){
+    opts = opts||{};
+    const c = ensureCtx();
+    if(!c || muted) return;
+    const t0 = c.currentTime;
+    const bufSize = Math.max(1, Math.floor(c.sampleRate*dur));
+    const buf = c.createBuffer(1, bufSize, c.sampleRate);
+    const data = buf.getChannelData(0);
+    for(let i=0;i<bufSize;i++){ data[i] = (Math.random()*2-1) * (1-i/bufSize); }
+    const src = c.createBufferSource();
+    src.buffer = buf;
+    const filt = c.createBiquadFilter();
+    filt.type = opts.filterType || 'bandpass';
+    filt.frequency.setValueAtTime(opts.freq||1200, t0);
+    if(opts.freqTo!=null) filt.frequency.exponentialRampToValueAtTime(Math.max(1,opts.freqTo), t0+dur);
+    filt.Q.value = opts.q!=null? opts.q : 0.9;
+    const g = c.createGain();
+    const vol = Math.max(0.0001, (opts.vol!=null? opts.vol : 0.25));
+    g.gain.setValueAtTime(vol, t0);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0+dur);
+    src.connect(filt); filt.connect(g); g.connect(master);
+    src.start(t0);
+  }
+
+  // プレイヤーからの距離に応じた音量係数（遠いほど小さく、範囲外は無音）。座標指定が無ければ常に1。
+  function distGain(x,y){
+    if(x==null || y==null) return 1;
+    const p = (typeof fighters!=='undefined')? fighters[0] : null;
+    if(!p) return 1;
+    const d = Math.hypot(x-p.x, y-p.y);
+    return clamp(1 - d/900, 0, 1);
+  }
+
+  return {
+    unlock(){ ensureCtx(); },
+    setMuted(v){ muted = !!v; },
+    isMuted(){ return muted; },
+
+    // --- 効果音カタログ ---
+    swing(x,y){ const g=distGain(x,y); if(g<=0.03) return; noise(0.09,{freq:2400, freqTo:900, q:1.2, vol:0.22*g}); },
+    hit(x,y){ const g=distGain(x,y); if(g<=0.03) return; tone(120,0.12,{type:'square', sweepTo:55, vol:0.26*g}); noise(0.08,{freq:1800, freqTo:400, vol:0.16*g}); },
+    block(x,y){ const g=distGain(x,y); if(g<=0.03) return; tone(560,0.09,{type:'triangle', sweepTo:300, vol:0.22*g}); },
+    dash(x,y){ const g=distGain(x,y); if(g<=0.03) return; noise(0.15,{freq:1600, freqTo:400, vol:0.15*g}); },
+    spell(x,y){ const g=distGain(x,y); if(g<=0.03) return; tone(300,0.22,{type:'sawtooth', sweepTo:900, vol:0.18*g}); },
+    arrow(x,y){ const g=distGain(x,y); if(g<=0.03) return; noise(0.10,{freq:2600, freqTo:1400, vol:0.15*g}); },
+    buildingHit(x,y){ const g=distGain(x,y); if(g<=0.03) return; noise(0.16,{freq:600, freqTo:150, vol:0.28*g, filterType:'lowpass'}); tone(90,0.16,{type:'square', sweepTo:40, vol:0.2*g}); },
+    buildingBreak(x,y){ const g=distGain(x,y); if(g<=0.03) return; noise(0.4,{freq:900, freqTo:100, vol:0.32*g, filterType:'lowpass'}); tone(70,0.4,{type:'sawtooth', sweepTo:30, vol:0.28*g}); },
+    treeBreak(x,y){ const g=distGain(x,y); if(g<=0.03) return; noise(0.22,{freq:1200, freqTo:200, vol:0.22*g, filterType:'lowpass'}); },
+    villagerDown(x,y){ const g=distGain(x,y); if(g<=0.03) return; tone(380,0.22,{type:'sawtooth', sweepTo:120, vol:0.2*g}); },
+    ko(x,y,isPlayerFlag){ const g = isPlayerFlag? 1 : distGain(x,y); if(g<=0.03) return; tone(200,0.35,{type:'sawtooth', sweepTo:50, vol:0.26*g}); },
+    pickup(x,y){ const g=distGain(x,y); if(g<=0.03) return; tone(660,0.10,{type:'sine', sweepTo:1100, vol:0.2*g}); },
+    gold(x,y){ const g=distGain(x,y); if(g<=0.03) return; tone(900,0.08,{type:'sine', sweepTo:1500, vol:0.16*g}); setTimeout(()=>tone(1300,0.1,{type:'sine', vol:0.14*g}), 55); },
+    door(){ tone(180,0.12,{type:'triangle', sweepTo:90, vol:0.2}); },
+    buy(){ tone(1000,0.07,{type:'square', vol:0.16}); setTimeout(()=>tone(1400,0.09,{type:'square', vol:0.14}),50); },
+    denied(){ tone(160,0.14,{type:'square', sweepTo:90, vol:0.2}); },
+    forge(){ noise(0.06,{freq:3000, freqTo:1200, vol:0.22}); tone(500,0.1,{type:'square', sweepTo:250, vol:0.18}); },
+    coinFlip(){ tone(700,0.5,{type:'sine', sweepTo:1500, vol:0.16}); },
+    win(){ [523,659,784].forEach((f,i)=>setTimeout(()=>tone(f,0.22,{type:'triangle', vol:0.2}), i*110)); },
+    lose(){ [420,330].forEach((f,i)=>setTimeout(()=>tone(f,0.32,{type:'sawtooth', vol:0.18}), i*160)); },
+    matchStart(){ tone(220,0.5,{type:'sawtooth', sweepTo:440, vol:0.22}); },
+    matchWin(){ [523,659,784,1046].forEach((f,i)=>setTimeout(()=>tone(f,0.3,{type:'triangle', vol:0.24}), i*140)); },
+    matchLose(){ [400,340,260,200].forEach((f,i)=>setTimeout(()=>tone(f,0.42,{type:'sawtooth', vol:0.22}), i*180)); },
+    hunterAlert(){ tone(500,0.18,{type:'square', sweepTo:900, vol:0.24}); setTimeout(()=>tone(500,0.18,{type:'square', sweepTo:900, vol:0.24}), 220); },
+    bossAppear(){ tone(90,0.7,{type:'sawtooth', sweepTo:50, vol:0.28}); setTimeout(()=>tone(700,0.3,{type:'square', sweepTo:1200, vol:0.18}), 150); },
+    tap(){ tone(700,0.05,{type:'sine', vol:0.14}); },
+  };
+})();
+
 /* ============ World / Arena ============ */
 const WORLD_RMAX = 820;
 const WORLD_RMIN = 210;
@@ -280,7 +478,7 @@ const arena = { cx:0, cy:0, r:WORLD_RMAX };
 let matchTimer = 0;
 
 /* ============ Obstacles (buildings / trees / villagers) ============ */
-const OBSTACLE_BUILDING_COUNT = 4;
+const OBSTACLE_BUILDING_COUNT = 5;
 const OBSTACLE_TREE_COUNT = 14;
 const OBSTACLE_VILLAGER_COUNT = 6;
 const BUILDING_RADIUS = 50;
@@ -291,6 +489,9 @@ const HOUSE_ENTER_GRACE = 0.35; // 入室直後、この秒数の間は移動入
 const HOUSE_SEEK_RADIUS = 560;  // NPCが隠れ場所として家を探す範囲
 const HOUSE_MIN_HIDE = 2.2;     // NPCが隠れ続ける最短秒数
 const HOUSE_HIDE_JITTER = 2.6;  // 上記に加算されるランダム秒数
+const HEAL_HOUSE_HP_RATE = 16;  // 回復の家：滞在中のHP回復量/秒
+const HEAL_HOUSE_MP_EXTRA = 10; // 回復の家：滞在中の追加MP回復量/秒
+const HEAL_HOUSE_ENTRY_FEE = 5; // 回復の家：入室時に前払いする治療費（払えないと回復が始まらない）
 const TREE_RADIUS = 20;
 const TREE_HP = 40;
 const VILLAGER_RADIUS = 15;
@@ -298,13 +499,18 @@ const VILLAGER_HP = 22;
 const VILLAGER_SPEED = 66;
 let obstacles = []; // {type:'building'|'tree'|'villager', x,y,r,hp,maxHp,alive,indestructible,...}
 
-const SHOP_BUILDING_COUNT = 2; // 4軒の家のうち店になる軒数
+const SHOP_BUILDING_COUNT = 2; // 5軒の家のうち店になる軒数
+const HOUSE_TYPES_NONSHOP = ['heal','smith','gamble']; // 残りの家に割り振る機能（回復の家／鍛冶屋／賭博場）
 function generateObstacles(){
   obstacles = [];
   placeObstacles('building', OBSTACLE_BUILDING_COUNT, BUILDING_RADIUS);
   const buildings = obstacles.filter(o=>o.type==='building');
-  const shopPicks = shuffleArray(buildings).slice(0, Math.min(SHOP_BUILDING_COUNT, buildings.length));
+  const shuffledBuildings = shuffleArray(buildings);
+  const shopPicks = shuffledBuildings.slice(0, Math.min(SHOP_BUILDING_COUNT, buildings.length));
   for(const b of shopPicks) b.isShop = true;
+  const restBuildings = shuffledBuildings.slice(SHOP_BUILDING_COUNT);
+  const shuffledTypes = shuffleArray(HOUSE_TYPES_NONSHOP);
+  restBuildings.forEach((b,i)=>{ b.houseType = shuffledTypes[i % shuffledTypes.length]; });
   placeObstacles('tree', OBSTACLE_TREE_COUNT, TREE_RADIUS);
   placeObstacles('villager', OBSTACLE_VILLAGER_COUNT, VILLAGER_RADIUS);
 }
@@ -342,6 +548,7 @@ function placeObstacles(type, count, r){
       obj.villagerCooldown = 0;
       obj.occupants = []; // 現在この家に隠れている戦闘士たち
       obj.isShop = false;
+      obj.houseType = null; // 'heal' | 'smith' | 'gamble'（店以外の機能種別）
     }
     obstacles.push(obj);
     placed++;
@@ -387,16 +594,19 @@ function damageObstacle(o, dmg, attacker){
     if(o.type==='tree'){
       spawnParticles(o.x,o.y-10,'#5a7a3a',22,150,0.5,4,60);
       addShake(4);
+      SFX.treeBreak(o.x,o.y);
       checkForestDestroyed();
     } else if(o.type==='villager'){
       villagerKilled(o, attacker);
     } else if(o.type==='building'){
       spawnParticles(o.x,o.y-10,'#c9a880',30,190,0.6,5,70);
       addShake(attacker && attacker.isPlayer? 10 : 6);
+      SFX.buildingBreak(o.x,o.y);
       ejectFromDestroyedHouse(o, true);
     }
   } else if(o.hp>0 && o.type==='building'){
     addShake(3);
+    SFX.buildingHit(o.x,o.y);
   }
 }
 
@@ -433,8 +643,26 @@ function enterHouse(f, building){
   const doorPt = buildingDoorPos(building);
   f.x = doorPt.x; f.y = doorPt.y;
   spawnParticles(doorPt.x, doorPt.y, '#e8c9a0', 8, 90, 0.4, 2, 0);
+  if(f.isPlayer) SFX.door(f.x,f.y);
+  if(building.houseType==='heal'){
+    // 回復の家：プレイヤーは支払いの意思確認をしてから前払いする。NPCは自動で判断する。
+    if(f.isPlayer){
+      f._healPaid = false;
+    } else if((f.gold||0) >= HEAL_HOUSE_ENTRY_FEE){
+      f.gold -= HEAL_HOUSE_ENTRY_FEE;
+      f._healPaid = true;
+    } else {
+      f._healPaid = false;
+    }
+  }
   if(building.isShop && f.isPlayer){
     openShopUI(building);
+  } else if(building.houseType==='smith' && f.isPlayer){
+    openSmithUI(building);
+  } else if(building.houseType==='gamble' && f.isPlayer){
+    openGambleUI(building);
+  } else if(building.houseType==='heal' && f.isPlayer){
+    openHealUI(building);
   } else if(f.isPlayer){
     showCenterMsg('家の中に隠れた…', 1000);
   }
@@ -443,6 +671,9 @@ function exitHouse(f, opts){
   const building = f.hidingIn;
   if(!building) return;
   const wasShop = building.isShop;
+  const wasSmith = building.houseType==='smith';
+  const wasGamble = building.houseType==='gamble';
+  const wasHeal = building.houseType==='heal';
   f.hidingIn = null;
   f._hideTimer = 0;
   f._hideEnterGrace = 0;
@@ -451,18 +682,29 @@ function exitHouse(f, opts){
   f.x = doorPt.x; f.y = doorPt.y + 16;
   f.state='idle'; f.stateTime=0;
   if(wasShop && f.isPlayer) closeShopUI();
-  if(f.isPlayer && !wasShop && !(opts && opts.silent)) showCenterMsg('家の外に出た', 800);
+  if(wasSmith && f.isPlayer) closeSmithUI();
+  if(wasGamble && f.isPlayer) closeGambleUI();
+  if(wasHeal && f.isPlayer) closeHealUI();
+  if(f.isPlayer && !wasShop && !wasSmith && !wasGamble && !wasHeal && !(opts && opts.silent)) showCenterMsg('家の外に出た', 800);
 }
 function ejectFromDestroyedHouse(building, broken){
   if(!building.occupants || building.occupants.length===0) return;
   const wasShop = !!building.isShop;
+  const wasSmith = building.houseType==='smith';
+  const wasGamble = building.houseType==='gamble';
+  const wasHeal = building.houseType==='heal';
   for(const f of building.occupants.slice()){
     exitHouse(f, {silent:true});
     if(f.alive && broken){
       f.state='hit'; f.stateTime=0; f.hitstun=Math.max(f.hitstun,0.3);
       spawnParticles(f.x,f.y-10,'#ff8a3d',18,150,0.5,4,30);
       if(f.isPlayer){
-        showCenterMsg(wasShop? '店が崩れ落ちた！買い物は強制終了だ！' : '隠れ家が崩れ、外に投げ出された！', 1200);
+        let msg = '隠れ家が崩れ、外に投げ出された！';
+        if(wasShop) msg = '店が崩れ落ちた！買い物は強制終了だ！';
+        else if(wasSmith) msg = '鍛冶屋が崩れ落ちた！強化は強制終了だ！';
+        else if(wasGamble) msg = '賭博場が崩れ落ちた！賭けは強制終了だ！';
+        else if(wasHeal) msg = '療養所が崩れ落ちた！治療は強制終了だ！';
+        showCenterMsg(msg, 1200);
       }
     }
   }
@@ -472,6 +714,7 @@ function ejectFromDestroyedHouse(building, broken){
 function villagerKilled(o, attacker){
   spawnParticles(o.x,o.y-10,'#c8203a',26,170,0.55,4,60);
   addShake(attacker && attacker.isPlayer? 10:5);
+  SFX.villagerDown(o.x,o.y);
   graves.push({x:o.x,y:o.y,name:'村人'});
   if(o.carriedItem){
     dropItemAt(o.carriedItem, o.x, o.y);
@@ -739,6 +982,7 @@ function applyItemEffect(f, type, item){
   const def = ITEM_DEFS[type];
   spawnParticles(f.x,f.y-20, def.color, 16,130,0.5,3,20);
   addShake(f.isPlayer?4:2);
+  if(type==='gold') SFX.gold(f.x,f.y); else SFX.pickup(f.x,f.y);
   if(type==='gold'){
     const amt = (item && item.amount!==undefined)? item.amount : GOLD_GROUND_MIN;
     f.gold = (f.gold||0) + amt;
@@ -865,9 +1109,9 @@ function affordableItemExists(gold){
 }
 function openShopUI(building){
   const p = fighters[0];
-  if(!p || !affordableItemExists(p.gold)){
-    shopOpenFor = null;
-    if(p && p.isPlayer) showCenterMsg('金貨が足りず、何も買えない…', 1200);
+  if(!p) return;
+  if(!affordableItemExists(p.gold)){
+    showCenterMsg('買える物がない…金貨が足りない', 1400);
     return;
   }
   shopOpenFor = building;
@@ -907,14 +1151,215 @@ function buyShopItem(type){
   const price = SHOP_PRICES[type];
   if((p.gold||0) < price) return;
   p.gold -= price;
+  SFX.buy();
   applyItemEffect(p, type);
   updateHUD();
-  if(!affordableItemExists(p.gold)){
-    showCenterMsg('金貨が足りず、もう何も買えない…', 1200);
-    closeShopUI();
+  renderShopUI();
+}
+
+/* ============ Smith (鍛冶屋：攻撃力を段階強化) ============ */
+const SMITH_MAX_LEVEL = 5;
+const SMITH_PRICES = [5, 12, 22, 35, 52]; // 1段階目(5G)から徐々に値上がりしていく強化価格
+const SMITH_DMG_PER_LEVEL = 2;
+let smithOpenFor = null;
+
+function smithPrice(level){ return SMITH_PRICES[level]!==undefined ? SMITH_PRICES[level] : SMITH_PRICES[SMITH_PRICES.length-1]; }
+function openSmithUI(building){
+  const p = fighters[0];
+  if(!p) return;
+  if((p.forgeLevel||0) >= SMITH_MAX_LEVEL){
+    showCenterMsg('武器は既に極限まで鍛え上げられている！', 1200);
     return;
   }
-  renderShopUI();
+  if((p.gold||0) < smithPrice(p.forgeLevel||0)){
+    showCenterMsg('強化に必要な金貨が足りない…', 1400);
+    return;
+  }
+  smithOpenFor = building;
+  renderSmithUI();
+  const el = document.getElementById('smithOverlay');
+  if(el) el.style.display = 'flex';
+}
+function closeSmithUI(){
+  smithOpenFor = null;
+  const el = document.getElementById('smithOverlay');
+  if(el) el.style.display = 'none';
+}
+function renderSmithUI(){
+  const p = fighters[0];
+  if(!p) return;
+  const lvl = p.forgeLevel||0;
+  const goldEl = document.getElementById('smithGold');
+  if(goldEl) goldEl.textContent = '所持金貨 💰'+(p.gold||0);
+  const lvlEl = document.getElementById('smithLevel');
+  if(lvlEl) lvlEl.textContent = '強化Lv '+lvl+' / '+SMITH_MAX_LEVEL+'　現在の攻撃力 '+p.atkDmg;
+  const btn = document.getElementById('smithUpgradeBtn');
+  if(!btn) return;
+  if(lvl>=SMITH_MAX_LEVEL){
+    btn.disabled = true;
+    btn.textContent = '既に最大まで強化済み';
+  } else {
+    const price = smithPrice(lvl);
+    btn.disabled = (p.gold||0) < price;
+    btn.textContent = '武器を強化する（'+price+'G / 攻撃力+'+SMITH_DMG_PER_LEVEL+'）';
+  }
+}
+function upgradeWeapon(){
+  const p = fighters[0];
+  if(!p || !p.alive || !p.hidingIn || p.hidingIn.houseType!=='smith') return;
+  if(!p.hidingIn.alive){ closeSmithUI(); return; }
+  const lvl = p.forgeLevel||0;
+  if(lvl>=SMITH_MAX_LEVEL) return;
+  const price = smithPrice(lvl);
+  if((p.gold||0) < price) return;
+  p.gold -= price;
+  p.forgeLevel = lvl+1;
+  p.atkDmg += SMITH_DMG_PER_LEVEL;
+  spawnParticles(p.x, p.y-20, '#ffcf6b', 16, 140, 0.5, 4, 20);
+  SFX.forge();
+  showCenterMsg('武器を強化した！ 攻撃力+'+SMITH_DMG_PER_LEVEL, 1000);
+  updateHUD();
+  renderSmithUI();
+  if(p.forgeLevel>=SMITH_MAX_LEVEL){
+    showCenterMsg('武器は極限まで鍛え上げられた！', 1200);
+    closeSmithUI();
+  }
+}
+
+/* ============ Gamble (賭博場：全財産をコイントスに賭ける、一度限り) ============ */
+const GAMBLE_WIN_CHANCE = 0.5; // コインの表＝2倍、裏＝没収
+let gambleOpenFor = null;
+
+function openGambleUI(building){
+  const p = fighters[0];
+  if(!p) return;
+  if(!p.gambledUsed && (p.gold||0) <= 0){
+    showCenterMsg('賭ける金貨がない…', 1400);
+    return;
+  }
+  gambleOpenFor = building;
+  renderGambleUI(p.gambledUsed? (p.gambledResultMsg||'既に賭けは使った…') : 'コインの表なら2倍、裏なら没収。一度しか賭けられない。');
+  const el = document.getElementById('gambleOverlay');
+  if(el) el.style.display = 'flex';
+  const coinEl = document.getElementById('gambleCoin');
+  if(coinEl){ coinEl.style.display = 'none'; coinEl.classList.remove('flipping'); }
+}
+function closeGambleUI(){
+  gambleOpenFor = null;
+  const el = document.getElementById('gambleOverlay');
+  if(el) el.style.display = 'none';
+  const coinEl = document.getElementById('gambleCoin');
+  if(coinEl){ coinEl.style.display = 'none'; coinEl.classList.remove('flipping'); }
+}
+function renderGambleUI(resultMsg){
+  const p = fighters[0];
+  if(!p) return;
+  const goldEl = document.getElementById('gambleGold');
+  if(goldEl) goldEl.textContent = '所持金貨 💰'+(p.gold||0);
+  const list = document.getElementById('gambleList');
+  if(list){
+    list.innerHTML = '';
+    const btn = document.createElement('button');
+    btn.className = 'shopItemBtn';
+    const canBet = !p.gambledUsed && (p.gold||0) > 0;
+    btn.disabled = !canBet;
+    if(p.gambledUsed){
+      btn.innerHTML = '<span class="ic">🪙</span><span class="nm">既に挑戦済み</span>';
+    } else if((p.gold||0) <= 0){
+      btn.innerHTML = '<span class="ic">🪙</span><span class="nm">金貨がない</span>';
+    } else {
+      btn.innerHTML = '<span class="ic">🪙</span><span class="nm">全財産（💰'+p.gold+'）を賭ける</span><span class="pr">表:2倍／裏:没収</span>';
+    }
+    btn.addEventListener('click', ()=>playGamble());
+    list.appendChild(btn);
+  }
+  const resEl = document.getElementById('gambleResult');
+  if(resEl) resEl.textContent = resultMsg||'';
+}
+function playGamble(){
+  const p = fighters[0];
+  if(!p || !p.alive || !p.hidingIn || p.hidingIn.houseType!=='gamble') return;
+  if(!p.hidingIn.alive){ closeGambleUI(); return; }
+  if(p.gambledUsed || (p.gold||0) <= 0) return;
+  const stake = p.gold;
+  const win = Math.random() < GAMBLE_WIN_CHANCE;
+  p.gambledUsed = true;
+  SFX.coinFlip();
+  renderGambleUI('コインを投げている…');
+  const coinEl = document.getElementById('gambleCoin');
+  if(coinEl){
+    coinEl.style.display = 'block';
+    coinEl.classList.remove('flipping');
+    void coinEl.offsetWidth; // 強制リフローでアニメーションを再始動させる
+    coinEl.classList.add('flipping');
+  }
+  setTimeout(()=>{
+    if(win){
+      p.gold = stake*2;
+      spawnParticles(p.x, p.y-20, '#ffd75e', 24, 170, 0.55, 4, 20);
+      p.gambledResultMsg = '表だ！ 全財産が2倍に！（所持 💰'+p.gold+'）';
+      SFX.win();
+    } else {
+      p.gold = 0;
+      p.gambledResultMsg = '裏だ… 全財産を没収された（所持 💰0）';
+      SFX.lose();
+    }
+    if(coinEl) coinEl.classList.remove('flipping');
+    renderGambleUI(p.gambledResultMsg);
+    updateHUD();
+  }, 550);
+}
+
+/* ============ Heal house (療養所：支払いの意思確認をしてから回復開始) ============ */
+let healOpenFor = null;
+
+function openHealUI(building){
+  const p = fighters[0];
+  if(!p) return;
+  healOpenFor = building;
+  renderHealUI();
+  const el = document.getElementById('healOverlay');
+  if(el) el.style.display = 'flex';
+}
+function closeHealUI(){
+  healOpenFor = null;
+  const el = document.getElementById('healOverlay');
+  if(el) el.style.display = 'none';
+}
+function renderHealUI(){
+  const p = fighters[0];
+  if(!p) return;
+  const goldEl = document.getElementById('healGold');
+  if(goldEl) goldEl.textContent = '所持金貨 💰'+(p.gold||0);
+  const descEl = document.getElementById('healDesc');
+  const btn = document.getElementById('healPayBtn');
+  if(p._healPaid){
+    if(descEl) descEl.textContent = '💰'+HEAL_HOUSE_ENTRY_FEE+'Gを払った。傷を癒やしている…';
+    if(btn){ btn.disabled = true; btn.textContent = '治療中…'; }
+  } else {
+    const afford = (p.gold||0) >= HEAL_HOUSE_ENTRY_FEE;
+    if(descEl) descEl.textContent = afford
+      ? '治療費（💰'+HEAL_HOUSE_ENTRY_FEE+'G）を払って傷を癒やしますか？'
+      : '治療費（💰'+HEAL_HOUSE_ENTRY_FEE+'G）が足りない…';
+    if(btn){
+      btn.disabled = !afford;
+      btn.textContent = '治療費を払う（💰'+HEAL_HOUSE_ENTRY_FEE+'G）';
+    }
+  }
+}
+function payHealFee(){
+  const p = fighters[0];
+  if(!p || !p.alive || !p.hidingIn || p.hidingIn.houseType!=='heal') return;
+  if(!p.hidingIn.alive){ closeHealUI(); return; }
+  if(p._healPaid) return;
+  if((p.gold||0) < HEAL_HOUSE_ENTRY_FEE) return;
+  p.gold -= HEAL_HOUSE_ENTRY_FEE;
+  p._healPaid = true;
+  spawnParticles(p.x, p.y-20, '#8fe08a', 14, 120, 0.45, 3, 0);
+  SFX.buy();
+  showCenterMsg('💰'+HEAL_HOUSE_ENTRY_FEE+'Gを払った。傷を癒やしている…', 1400);
+  updateHUD();
+  renderHealUI();
 }
 
 function drawItem(it){
@@ -1138,6 +1583,20 @@ const ROSTER_DEF = [
   },
 ];
 
+/* ============ Flame Emperor (debug/verification class change) ============ */
+// 業火の狂戦士が「他の闘技者全員が存命」の状態で、自ら溶岩へ飛び込むと、
+// 死ぬ代わりに溶岩の力を得て「炎帝」へクラスチェンジする（開発・検証用の隠しルート）。
+// 火炎魔法は追尾弾（自動でターゲットを追う）、炎剣はガード不可の即死級火力を持つ、めちゃ強い検証用キャラ。
+const FLAME_EMPEROR_DEF = {
+  name:'炎帝', color:'#3a0e08', accent:'#ff5a1f', weapon:'infernosword', icon:'🔥',
+  maxHp:70, maxMp:100,
+  atkRange:110, atkDmg:70, atkStamina:4, atkCdMax:0.20, atkKnock:560,
+  atkWindup:0.05, atkActive:0.16, atkRecover:0.08, atkStunBonus:0.3,
+  atkIgnoreBlock:true, // 炎剣はガード不可
+  spellDmg:45, spellMana:24, spellCdMax:0.30, spellHoming:true, // 火炎魔法は追尾弾
+  moveSpeedMult:1.40, defenseMult:1.35,
+};
+
 function makeFighter(cfg){
   return Object.assign({
     x:0,y:0, vx:0, vy:0, facing:1,
@@ -1156,7 +1615,7 @@ function makeFighter(cfg){
     hasWand:false,
     hasBow:false, arrowsLeft:0,
     herbStock:0, manaStock:0, herbAutoCd:0, manaAutoCd:0,
-    gold:0,
+    gold:0, forgeLevel:0, gambledUsed:false, gambledResultMsg:'',
     isAlly:false, allyRef:null,
     color:'#eee',
     // 個性ステータスの基準値（未指定の場合はここに従う＝灰の剣士相当の標準的な強さ）
@@ -1208,7 +1667,10 @@ function setupFighters(){
     f.facing = Math.cos(ang)>0? -1 : 1;
     f._target=null; f._aiMoveX=0; f._aiMoveY=0;
     f.isKiller=false;
-    f.gold=0;
+    f.gold = f.isPlayer ? 10 : 0;
+    f.forgeLevel=0;
+    f.gambledUsed=false;
+    f.gambledResultMsg='';
   }
 }
 
@@ -1239,6 +1701,30 @@ const CHAMPION_DUEL_RADIUS = 360; // 決闘用に固定される闘技場の広�
 let championStage = false;   // チャンピオン戦の段階に入ったか
 let championRef = null;      // 生成された氷帝への参照
 
+/* ============ Assassins (cover-up duo) ============ */
+// 氷帝を討った事実を闇に葬るため、闘技場の裏側から放たれる二人の暗殺者。
+// 雷神：跳躍で一気に間合いを詰め、雷剣で斬りかかるインファイト型。特殊能力はなく、跳躍→斬撃の連携精度が高いだけ。
+// 風神：エルフの弓兵のように距離を保つヒット＆アウェイ型。近接武器はほぼ使わず、ノックバック付きの空気砲（風の弾）で押し出す。
+// 二人合わせて標準的な闘技者一人分程度の強さ（HPはそれぞれ標準の2倍程度）になるよう調整している。
+const RAIJIN_DEF = {
+  name:'雷神', color:'#3a3626', accent:'#ffe14d', weapon:'lightningsword', icon:'⚡',
+  maxHp:104, maxMp:40,
+  atkRange:82, atkDmg:12, atkStamina:15, atkCdMax:0.40, atkKnock:300,
+  atkWindup:0.10, atkActive:0.10, atkRecover:0.16, atkStunBonus:0.05,
+  spellDmg:0, spellMana:9999, spellCdMax:9.9, // 雷神は魔法を使わない＝特殊能力なし。跳躍と斬撃のみで戦う
+  moveSpeedMult:1.14, defenseMult:0.94,
+};
+const FUJIN_DEF = {
+  name:'風神', color:'#233a34', accent:'#8be0c8', weapon:'windfan', icon:'🌀',
+  maxHp:96, maxMp:220,
+  atkRange:64, atkDmg:5, atkStamina:14, atkCdMax:0.55, atkKnock:160,
+  spellDmg:8, spellMana:13, spellCdMax:0.58,
+  moveSpeedMult:1.10, defenseMult:0.90,
+};
+let assassinStage = false;   // 暗殺者（隠蔽）戦の段階に入ったか
+let raijinRef = null;        // 生成された雷神への参照
+let fujinRef = null;         // 生成された風神への参照
+
 function updateArenaShrink(dt){
   if(championStage) return; // タイマン開始後は決闘場のサイズで固定し、収縮を止める
   matchTimer += dt;
@@ -1262,7 +1748,11 @@ function startMatch(){
   elfSpawned = false;
   championStage = false;
   championRef = null;
+  assassinStage = false;
+  raijinRef = null;
+  fujinRef = null;
   document.getElementById('bossPanel').style.display = 'none';
+  document.getElementById('assassinPanel').style.display = 'none';
   arena.cx = 0; arena.cy = 0; arena.r = WORLD_RMAX;
   graves = []; projectiles = []; particles = [];
   camera.x = fighters[0].x; camera.y = fighters[0].y;
@@ -1271,14 +1761,14 @@ function startMatch(){
   renderRoster();
   updateHUD();
   showCenterMsg('あなたは「'+fighters[0].name+'」', 1300, ()=>{
-    showCenterMsg('BATTLE ROYALE', 1200, ()=>{ fightLive = true; showCenterMsg('FIGHT!', 700); });
+    showCenterMsg('BATTLE ROYALE', 1200, ()=>{ fightLive = true; showCenterMsg('FIGHT!', 700); SFX.matchStart(); });
   });
 }
 
 function createRosterItem(i){
   const f = fighters[i];
   const item = document.createElement('div');
-  item.className='rosterItem'+(f.isHunter? ' hunterItem':'')+(f.isElf? ' elfItem':'');
+  item.className='rosterItem'+(f.isHunter? ' hunterItem':'')+(f.isElf? ' elfItem':'')+(f.isRaijin? ' raijinItem':'')+(f.isFujin? ' fujinItem':'')+(f.isFlameEmperor? ' flameEmperorItem':'');
   item.id='roster-'+i;
   item.title=f.name;
   const dot = document.createElement('div');
@@ -1474,6 +1964,7 @@ function tryAttack(f){
   f.state='attack'; f.stateTime=0;
   f.atkCooldown = f.atkCdMax;
   f._attackHit=false;
+  SFX.swing(f.x,f.y);
 }
 
 function tryCast(f){
@@ -1486,6 +1977,7 @@ function tryCast(f){
   f.state='cast'; f.stateTime=0;
   f.spellCooldown = f.spellCdMax;
   f._castFired=false;
+  if(f.hasBow) SFX.arrow(f.x,f.y); else SFX.spell(f.x,f.y);
 }
 
 function tryDash(f){
@@ -1502,6 +1994,7 @@ function tryDash(f){
   const m = Math.hypot(dx,dy);
   if(m<0.1){ dx = f.facing; dy=0; } else { dx/=m; dy/=m; }
   f._dashDirX = dx; f._dashDirY = dy;
+  SFX.dash(f.x,f.y);
 }
 
 function fireProjectile(f, target){
@@ -1509,14 +2002,17 @@ function fireProjectile(f, target){
   if(target){ dx = target.x-f.x; dy = target.y-f.y; } else { dx = f.facing; dy = 0; }
   const d = Math.hypot(dx,dy)||1;
   const isArrow = f.weapon==='bow';
-  const speed = isArrow? SPELL_SPEED*1.4 : SPELL_SPEED;
+  const isWind = !!f.isFujin; // 風神の空気砲：命中時に強いノックバックを与える大きめの弾
+  const isHoming = !!f.spellHoming; // 炎帝の火炎魔法：自動でターゲットを追尾する
+  const speed = isArrow? SPELL_SPEED*1.4 : (isWind? SPELL_SPEED*0.9 : (isHoming? SPELL_SPEED*1.1 : SPELL_SPEED));
   projectiles.push({
     x:f.x + (dx/d)*30, y:f.y-14 + (dy/d)*30,
     vx:(dx/d)*speed, vy:(dy/d)*speed,
-    owner:f, r: isArrow? 7 : SPELL_RADIUS, life:2.0, color:f.accent,
-    isArrow, angle: Math.atan2(dy,dx)
+    owner:f, r: isArrow? 7 : (isWind? SPELL_RADIUS*2.0 : (isHoming? SPELL_RADIUS*1.4 : SPELL_RADIUS)), life:2.0, color:f.accent,
+    isArrow, isWind, isHoming, homingTarget: isHoming? target : null,
+    angle: Math.atan2(dy,dx)
   });
-  spawnParticles(f.x,f.y-14,f.accent,isArrow?5:10,140,0.35,isArrow?2:3,0);
+  spawnParticles(f.x,f.y-14,f.accent,isArrow?5:(isWind?14:(isHoming?12:10)),140,0.35,isArrow?2:3,0);
   if(f.hasBow){
     f.arrowsLeft = Math.max(0,(f.arrowsLeft||0)-1);
     if(f.arrowsLeft<=0){
@@ -1582,6 +2078,12 @@ function computeTargets(){
       let nt = (p && p.alive)? p : null;
       if(nt && nt.hidingIn && nt.hidingIn.alive) nt = nt.hidingIn;
       f._target = nt;
+      continue;
+    }
+    if(f.isAssassin){
+      // 雷神・風神は互いを敵とみなさず、隠蔽対象であるプレイヤーだけを狙う。
+      const p = fighters[0];
+      f._target = (p && p.alive)? p : null;
       continue;
     }
     if(f.isAlly){
@@ -1656,6 +2158,7 @@ function spawnHunter(){
   addRosterItem(fighters.length-1);
   showCenterMsg('殺人鬼が気配を察知した…', 1400);
   addShake(6);
+  SFX.hunterAlert();
 }
 
 // 森の木を一本残らず切り倒すと、罰としてエルフの弓兵が乱入してくる。
@@ -1680,6 +2183,7 @@ function spawnElfArcher(){
   addRosterItem(fighters.length-1);
   showCenterMsg('森を壊した罰に、エルフの弓矢が放たれる…', 1800);
   addShake(8);
+  SFX.hunterAlert();
 }
 
 
@@ -1707,6 +2211,7 @@ function turnVillagersIntoHunters(villagerList){
   }
   showCenterMsg('村人たちが牙を剥いた…殺人鬼と化す！', 1700);
   addShake(14);
+  SFX.hunterAlert();
 }
 
 /* ============ PIT champion duel ============ */
@@ -1733,6 +2238,7 @@ function spawnChampion(){
   document.getElementById('bossName').textContent = c.name;
   document.getElementById('bossHp').style.width = '100%';
   addShake(18);
+  SFX.bossAppear();
 }
 
 function startChampionDuel(){
@@ -1753,6 +2259,72 @@ function startChampionDuel(){
       showCenterMsg('氷帝、降臨', 1400, ()=>{
         fightLive = true;
         showCenterMsg('FIGHT!', 700);
+        SFX.matchStart();
+      });
+    });
+  });
+}
+
+/* ============ Assassin duel (cover-up) ============ */
+// 氷帝を撃破した直後、その事実を闇に葬るために闘技場の運営が放つ二人の刺客。
+// 決闘場の広さはそのまま、プレイヤーの前方左右から同時に降り立つ。
+function spawnAssassins(){
+  const p = fighters[0];
+  const raijin = makeFighter(Object.assign({}, RAIJIN_DEF, {
+    isPlayer:false, isRaijin:true, isAssassin:true,
+    aiAggro: 1.5,
+  }));
+  raijin.hp = raijin.maxHp; raijin.mp = raijin.maxMp; raijin.st = raijin.maxSt;
+  const fujin = makeFighter(Object.assign({}, FUJIN_DEF, {
+    isPlayer:false, isFujin:true, isAssassin:true,
+    aiAggro: 1.3,
+  }));
+  fujin.hp = fujin.maxHp; fujin.mp = fujin.maxMp; fujin.st = fujin.maxSt;
+
+  const angBase = p? Math.atan2(p.y-arena.cy, p.x-arena.cx)+Math.PI : 0;
+  const spawnDist = arena.r*0.7;
+  raijin.x = arena.cx + Math.cos(angBase-0.45)*spawnDist;
+  raijin.y = arena.cy + Math.sin(angBase-0.45)*spawnDist;
+  fujin.x = arena.cx + Math.cos(angBase+0.45)*spawnDist;
+  fujin.y = arena.cy + Math.sin(angBase+0.45)*spawnDist;
+  raijin.facing = (p && p.x < raijin.x)? -1 : 1;
+  fujin.facing = (p && p.x < fujin.x)? -1 : 1;
+
+  fighters.push(raijin);
+  fighters.push(fujin);
+  raijinRef = raijin;
+  fujinRef = fujin;
+  aliveCount += 2;
+  addRosterItem(fighters.length-2);
+  addRosterItem(fighters.length-1);
+  document.getElementById('assassinPanel').style.display = '';
+  document.getElementById('raijinRow').style.display = '';
+  document.getElementById('fujinRow').style.display = '';
+  document.getElementById('raijinHp').style.width = '100%';
+  document.getElementById('fujinHp').style.width = '100%';
+  addShake(20);
+  SFX.bossAppear();
+}
+
+function startAssassinDuel(){
+  assassinStage = true;
+  fightLive = false;
+  arena.cx = 0; arena.cy = 0; arena.r = CHAMPION_DUEL_RADIUS;
+  const p = fighters[0];
+  if(p && p.alive){
+    // 二人の刺客との連戦に備え、体力を少し回復しスタミナ・マナは全快にする
+    p.hp = clamp(p.hp + p.maxHp*0.22, 0, p.maxHp);
+    p.mp = p.maxMp; p.st = p.maxSt;
+    p.x = 0; p.y = CHAMPION_DUEL_RADIUS*0.45;
+    p.vx=p.vy=0; p.knockVx=p.knockVy=0; p.slowTimer=0;
+  }
+  showCenterMsg('氷帝を討った証は、誰にも知られてはならない――', 1600, ()=>{
+    showCenterMsg('隠蔽の刺客が動き出す', 1300, ()=>{
+      spawnAssassins();
+      showCenterMsg('雷神・風神、降臨', 1400, ()=>{
+        fightLive = true;
+        showCenterMsg('FIGHT!', 700);
+        SFX.matchStart();
       });
     });
   });
@@ -1810,6 +2382,100 @@ function updateElfAI(f, dt){
   }
 }
 
+// 雷神：跳躍（ダッシュ）で一気に間合いを詰め、着地と同時に雷剣で斬りかかるインファイト型AI。
+// 特殊な魔法や搦め手は持たず、間合い管理と跳躍→斬撃の連携精度だけで押し切る。
+function updateRaijinAI(f, dt){
+  if(f.state==='hit'||f.hitstun>0){ f._aiMoveX=0; f._aiMoveY=0; return; }
+  const t = f._target;
+  const canAct = f.state==='idle'||f.state==='walk';
+  const fdc = dist(f.x,f.y,arena.cx,arena.cy);
+  if(fdc > arena.r*0.85){
+    const dc = fdc||1;
+    const mx=(arena.cx-f.x)/dc, my=(arena.cy-f.y)/dc;
+    f._aiMoveX=mx; f._aiMoveY=my;
+    return;
+  }
+  if(!t || !t.alive){ f._aiMoveX=0; f._aiMoveY=0; return; }
+  const dx=t.x-f.x, dy=t.y-f.y;
+  const d=Math.hypot(dx,dy)||1;
+  const nx=dx/d, ny=dy/d;
+  if(Math.abs(dx)>4) f.facing = dx>0?1:-1;
+
+  if(d > f.atkRange*1.05){
+    // 間合い外：跳躍で一気に詰める。これが雷神の主戦術。
+    f._aiMoveX = nx; f._aiMoveY = ny;
+    if(canAct && f.dashCooldown<=0 && f.st>=DASH_STAMINA && d < 500 && Math.random()<0.11*f.aiAggro){
+      f._aiDashX = nx; f._aiDashY = ny;
+      tryDash(f);
+    }
+  } else {
+    // 間合い内：跳躍の勢いを止めず即座に斬りかかる
+    f._aiMoveX = nx*0.12; f._aiMoveY = ny*0.12;
+    if(canAct && f.atkCooldown<=0 && f.st>=f.atkStamina && Math.random()<0.10*f.aiAggro){
+      tryAttack(f);
+    } else if(canAct && Math.random()<0.004 && f.st>=DASH_STAMINA && f.dashCooldown<=0){
+      // ごく稀に一度離れてから再度跳躍で詰め直す（連携の起点を作る）
+      f._aiDashX=-nx; f._aiDashY=-ny;
+      tryDash(f);
+    }
+  }
+  // インファイター気質のため、まず防御に構えることはしない
+  f.blocking = false;
+}
+
+// 風神：エルフの弓兵と同じ「ヒット＆アウェイ」の間合い管理を行うが、
+// 近接武器はほとんど使わず、ノックバック付きの空気砲（風の弾）で距離を保ちながら押し出す。
+function updateFujinAI(f, dt){
+  if(f.state==='hit'||f.hitstun>0){ f._aiMoveX=0; f._aiMoveY=0; return; }
+  const t = f._target;
+  const canAct = f.state==='idle'||f.state==='walk';
+  const fdc = dist(f.x,f.y,arena.cx,arena.cy);
+  if(fdc > arena.r*0.85){
+    const dc = fdc||1;
+    const mx=(arena.cx-f.x)/dc, my=(arena.cy-f.y)/dc;
+    f._aiMoveX=mx; f._aiMoveY=my;
+    return;
+  }
+  if(!t || !t.alive){ f._aiMoveX=0; f._aiMoveY=0; return; }
+  const dx=t.x-f.x, dy=t.y-f.y;
+  const d=Math.hypot(dx,dy)||1;
+  const nx=dx/d, ny=dy/d;
+  if(Math.abs(dx)>4) f.facing = dx>0?1:-1;
+
+  const TOO_CLOSE = 250;   // これより近づかれたら風神は下がる
+  const IDEAL_MAX = 420;   // これより遠いと詰めてくる
+
+  if(!f._kiteTimer || f._kiteTimer<=0){
+    f._kiteTimer = 0.9+Math.random()*1.2;
+    f._kiteDir = Math.random()<0.5? 1 : -1;
+  }
+  f._kiteTimer -= dt;
+
+  let mx=0, my=0;
+  if(d < TOO_CLOSE){
+    // 距離を取るために後退しつつ横にそれる（アウェイ）。可能なら跳躍で一気に離脱する。
+    mx = -nx + ny*0.65*f._kiteDir;
+    my = -ny - nx*0.65*f._kiteDir;
+    if(canAct && f.dashCooldown<=0 && f.st>=DASH_STAMINA && Math.random()<0.06){
+      f._aiDashX=-nx; f._aiDashY=-ny;
+      tryDash(f);
+    }
+  } else if(d > IDEAL_MAX){
+    // 射程外まで離されたら少し詰める
+    mx = nx; my = ny;
+  } else {
+    // 好ましい間合い内：円を描くように横移動しながら空気砲で牽制
+    mx = nx*0.1 + ny*0.95*f._kiteDir;
+    my = ny*0.1 - nx*0.95*f._kiteDir;
+  }
+  const mmag = Math.hypot(mx,my)||1;
+  f._aiMoveX = mx/mmag; f._aiMoveY = my/mmag;
+
+  if(canAct && d < 480 && f.spellCooldown<=0 && f.mp>=f.spellMana && Math.random()<0.10*f.aiAggro){
+    tryCast(f);
+  }
+}
+
 // 家に隠れている間、いつ外に出るかを決める（一定時間ごとに外の様子を見に出る）
 function updateHiderExitAI(f, dt){
   f._hideTimer = (f._hideTimer!==undefined? f._hideTimer : HOUSE_MIN_HIDE) - dt;
@@ -1823,6 +2489,8 @@ function updateHiderExitAI(f, dt){
 function updateAI(f, dt){
   if(f.hidingIn){ updateHiderExitAI(f, dt); return; }
   if(f.isElf){ updateElfAI(f, dt); return; }
+  if(f.isRaijin){ updateRaijinAI(f, dt); return; }
+  if(f.isFujin){ updateFujinAI(f, dt); return; }
   if(f.state==='hit'||f.hitstun>0){ f._aiMoveX=0; f._aiMoveY=0; return; }
   const t = f._target;
   const canAct = f.state==='idle'||f.state==='walk';
@@ -1919,6 +2587,16 @@ function updateFighter(f, dt){
     if(f.dashCooldown>0) f.dashCooldown -= dt;
     f.st = clamp(f.st + dt*20, 0, f.maxSt);
     f.mp = clamp(f.mp + dt*8, 0, f.maxMp);
+    if(f.hidingIn.houseType==='heal' && f._healPaid){
+      // 回復の家：治療費を払った場合のみ、滞在中はHPも継続回復し、MPの回復も上乗せされる
+      f.hp = clamp(f.hp + dt*HEAL_HOUSE_HP_RATE, 0, f.maxHp);
+      f.mp = clamp(f.mp + dt*HEAL_HOUSE_MP_EXTRA, 0, f.maxMp);
+      f._healFx = (f._healFx===undefined? 0 : f._healFx) - dt;
+      if(f._healFx<=0){
+        f._healFx = 0.45;
+        spawnParticles(f.x, f.y-20, '#8fe08a', 4, 60, 0.4, 2, 0);
+      }
+    }
     if(!f.hidingIn.alive){ exitHouse(f); return; } // 家が既に失われていたら安全のため退避
     if(f._hideEnterGrace===undefined) f._hideEnterGrace = 0;
     if(f._hideEnterGrace>0){
@@ -2097,7 +2775,8 @@ function applyHit(target, attacker, dmg, knock, isSpell){
   const d = Math.hypot(dx,dy)||1;
   let actualDmg = dmg * (target.defenseMult||1);
   let actualKnock = knock;
-  const isBlockingNow = target.blocking && target.st>0 && (target.state==='idle'||target.state==='walk');
+  const guardBypassed = !isSpell && attacker && attacker.atkIgnoreBlock; // 炎剣などガード不可の攻撃
+  const isBlockingNow = !guardBypassed && target.blocking && target.st>0 && (target.state==='idle'||target.state==='walk');
   if(isBlockingNow){
     const bp = target.blockPower||1; // 盾入手で1未満になり、防御性能が上がる
     actualDmg *= 0.22*bp;
@@ -2105,12 +2784,14 @@ function applyHit(target, attacker, dmg, knock, isSpell){
     target.st = clamp(target.st-10*bp,0,target.maxSt);
     spawnParticles(target.x,target.y-20,'#cfe8ff',8,90,0.3,2,0);
     addShake(3);
+    SFX.block(target.x,target.y);
   } else {
     target.state='hit'; target.stateTime=0;
     // 通常のよろけ(0.28秒)に加え、攻撃側の武器が追加スタンを持っていれば上乗せする（氷帝の剣など）
     target.hitstun = 0.28 + (!isSpell ? (attacker.atkStunBonus||0) : 0);
     spawnParticles(target.x,target.y-20, isSpell? attacker.accent : '#ff5555', 14,160,0.4,3,60);
     addShake(isSpell?8:5);
+    SFX.hit(target.x,target.y);
     // 魔法が鈍足効果を持っていれば、命中した対象を氷結させて足を鈍らせる（氷帝の魔法など）
     if(isSpell && attacker.spellSlow){
       target.slowTimer = Math.max(target.slowTimer, attacker.spellSlowTime||POOP_SLOW_TIME);
@@ -2138,6 +2819,7 @@ function eliminate(f, cause){
   if(!f.alive || matchOver) return;
   f.alive = false;
   f.placement = aliveCount;
+  SFX.ko(f.x,f.y, f.isPlayer);
   if(!f.isAlly) aliveCount--; // 分身は勝敗判定上の「残り人数」には数えない
   if(cause==='hp'){
     graves.push({x:f.x,y:f.y,name:f.name});
@@ -2154,6 +2836,10 @@ function eliminate(f, cause){
   if(f.isChampion){
     const bossPanel = document.getElementById('bossPanel');
     if(bossPanel) bossPanel.style.display = 'none';
+  }
+  if(f.isAssassin){
+    const row = f.isRaijin? document.getElementById('raijinRow') : document.getElementById('fujinRow');
+    if(row) row.style.display = 'none';
   }
   checkMatchEnd();
 }
@@ -2179,6 +2865,10 @@ function checkMatchEnd(){
       startChampionDuel();
       return; // 生き残っただけではまだ真の勝利ではない。氷帝とのタイマンが待つ
     }
+    if(!assassinStage){
+      startAssassinDuel();
+      return; // 氷帝を倒しただけではまだ終わらない。その事実を闇に葬る刺客が待つ
+    }
     player.placement = 1;
     matchOver = true;
     finishSequence(true, 1);
@@ -2188,8 +2878,9 @@ function checkMatchEnd(){
 function finishSequence(playerWon, placement){
   fightLive = false;
   const label = playerWon
-    ? (championStage? '氷帝、撃破！' : '勝利！')
-    : (championStage? '氷帝に敗れた…' : '敗北…');
+    ? (assassinStage? '刺客を退け、真実は残った' : (championStage? '氷帝、撃破！' : '勝利！'))
+    : (assassinStage? '闇に葬られた…' : (championStage? '氷帝に敗れた…' : '敗北…'));
+  if(playerWon) SFX.matchWin(); else SFX.matchLose();
   showCenterMsg(label, 1400, ()=>{ finishMatch(playerWon, placement); });
 }
 
@@ -2199,10 +2890,12 @@ function finishMatch(playerWon, placement){
   const endSub = document.getElementById('endSub');
   endTitle.textContent = playerWon
     ? 'VICTORY — 1位'
-    : (championStage? 'DEFEAT — 氷帝に敗北' : `DEFEAT — ${placement}位`);
+    : (assassinStage? 'DEFEAT — 闇に葬られた' : (championStage? 'DEFEAT — 氷帝に敗北' : `DEFEAT — ${placement}位`));
   endTitle.className = playerWon? 'win':'lose';
   if(playerWon){
-    endSub.textContent = '五人の強敵を退け、さらに闘技場の頂点チャンピオン「氷帝」との死闘を制した。血と氷に彩られた灰の剣士の名は、いま伝説となる。';
+    endSub.textContent = '五人の強敵と氷帝を退け、その勝利を闇に葬ろうとした刺客「雷神」「風神」までも打ち倒した。灰の剣士が頂点に立ったという真実は、隠されることなく闘技場の歴史に刻まれる。';
+  } else if(assassinStage){
+    endSub.textContent = '氷帝を討ち果たしたはずだったが、その事実を隠すために放たれた雷神と風神の凶刃に沈んだ。栄光は闇に葬られ、記録からも消え去る――勝利は誰にも知られないまま。';
   } else if(championStage){
     endSub.textContent = '五人の強敵を退けてなお、チャンピオン「氷帝」の刃と氷の魔法には届かなかった。骨は闘技場に沈むが、記憶はまだ消えない――次こそ頂点へ。';
   } else {
@@ -2212,17 +2905,48 @@ function finishMatch(playerWon, placement){
 }
 
 document.getElementById('startBtn').addEventListener('click', ()=>{
+  SFX.unlock();
+  SFX.tap();
   document.getElementById('startOverlay').style.display='none';
   running = true;
   startMatch();
 });
 document.getElementById('retryBtn').addEventListener('click', ()=>{
+  SFX.unlock();
+  SFX.tap();
   document.getElementById('endOverlay').style.display='none';
   startMatch();
 });
 document.getElementById('shopLeaveBtn').addEventListener('click', ()=>{
   const p = fighters[0];
   if(p && p.hidingIn) exitHouse(p);
+});
+document.getElementById('smithLeaveBtn').addEventListener('click', ()=>{
+  const p = fighters[0];
+  if(p && p.hidingIn) exitHouse(p);
+});
+document.getElementById('gambleLeaveBtn').addEventListener('click', ()=>{
+  const p = fighters[0];
+  if(p && p.hidingIn) exitHouse(p);
+});
+document.getElementById('healLeaveBtn').addEventListener('click', ()=>{
+  const p = fighters[0];
+  if(p && p.hidingIn) exitHouse(p);
+});
+document.getElementById('healPayBtn').addEventListener('click', ()=>{
+  payHealFee();
+});
+document.getElementById('smithUpgradeBtn').addEventListener('click', ()=>{
+  upgradeWeapon();
+});
+document.getElementById('muteBtn').addEventListener('click', ()=>{
+  SFX.unlock();
+  const nowMuted = !SFX.isMuted();
+  SFX.setMuted(nowMuted);
+  const btn = document.getElementById('muteBtn');
+  btn.textContent = nowMuted? '🔇':'🔊';
+  btn.classList.toggle('muted', nowMuted);
+  if(!nowMuted) SFX.tap();
 });
 
 /* start-screen roster preview */
@@ -2246,13 +2970,24 @@ function updateProjectiles(dt){
   for(let i=projectiles.length-1;i>=0;i--){
     const pr = projectiles[i];
     pr.life -= dt;
+    if(pr.isHoming && pr.homingTarget && pr.homingTarget.alive){
+      // 追尾弾：現在の進行速度を保ったまま、少しずつターゲット方向へ軌道を曲げる
+      const spd = Math.hypot(pr.vx,pr.vy)||1;
+      const tdx = pr.homingTarget.x-pr.x, tdy = pr.homingTarget.y-pr.y;
+      const td = Math.hypot(tdx,tdy)||1;
+      const homingTurn = Math.min(1, dt*6.5);
+      const nvx = pr.vx*(1-homingTurn) + (tdx/td)*spd*homingTurn;
+      const nvy = pr.vy*(1-homingTurn) + (tdy/td)*spd*homingTurn;
+      const nspd = Math.hypot(nvx,nvy)||1;
+      pr.vx = nvx/nspd*spd; pr.vy = nvy/nspd*spd;
+    }
     pr.x += pr.vx*dt; pr.y += pr.vy*dt;
     if(Math.random()<0.6) spawnParticles(pr.x,pr.y,pr.color,1,30,0.25,2,0);
     let hit=false;
     for(const f of fighters){
       if(f===pr.owner || !f.alive || f.hidingIn) continue;
       if(dist(pr.x,pr.y,f.x,f.y) < pr.r+18){
-        applyHit(f, pr.owner, pr.owner.spellDmg||16, SPELL_KNOCK, true);
+        applyHit(f, pr.owner, pr.owner.spellDmg||16, pr.isWind? SPELL_KNOCK*2.4 : SPELL_KNOCK, true);
         spawnParticles(pr.x,pr.y,pr.color,20,180,0.4,4,0);
         hit=true;
         break;
@@ -2277,10 +3012,47 @@ function updateProjectiles(dt){
 }
 
 /* ============ Pit / ring-out check ============ */
+// 業火の狂戦士が、まだ誰も脱落していない（他の闘技者全員が存命の）状態で、
+// 攻撃で吹き飛ばされたのではなく自らの意思で溶岩へ踏み出した場合に限り、
+// 死亡（脱落）の代わりに「炎帝」へのクラスチェンジが発生する。
+function classChangeToFlameEmperor(f){
+  const backAng = Math.atan2(f.y-arena.cy, f.x-arena.cx);
+  f.x = arena.cx + Math.cos(backAng)*(arena.r*0.7);
+  f.y = arena.cy + Math.sin(backAng)*(arena.r*0.7);
+  f.vx=0; f.vy=0; f.knockVx=0; f.knockVy=0;
+  f.state='idle'; f.stateTime=0;
+  Object.assign(f, FLAME_EMPEROR_DEF);
+  f.isFlameEmperor = true;
+  f.hp = f.maxHp; f.mp = f.maxMp; f.st = f.maxSt;
+  f.invuln = 1.2;
+  f.slowTimer=0; f.poisonTimer=0;
+  spawnParticles(f.x,f.y,'#ff5a1f',60,260,1.0,6,0);
+  spawnParticles(f.x,f.y,'#ffd27a',30,180,0.8,4,0);
+  addShake(24);
+  SFX.bossAppear();
+  if(f.isPlayer){
+    showCenterMsg('溶岩の力を得て、炎帝と化す…！', 1900);
+  } else {
+    showCenterMsg(f.name+'が炎帝と化した！', 1900);
+    const idx = fighters.indexOf(f);
+    if(idx>0){
+      const oldEl = document.getElementById('roster-'+idx);
+      if(oldEl) oldEl.replaceWith(createRosterItem(idx));
+    }
+  }
+}
+
 function checkPitFall(f){
   if(!f.alive || f.hidingIn) return;
   const d = dist(f.x,f.y,arena.cx,arena.cy);
   if(d > arena.r + 6){
+    // 「自らの意思で」＝攻撃のノックバックで押し出されたのではない（吹っ飛ばされている最中は対象外）
+    const selfWilled = f.state!=='hit' && Math.hypot(f.knockVx,f.knockVy) < 60;
+    const allOthersAlive = aliveCount >= fighters.length; // 誰も脱落していない＝全員存命
+    if(f.name==='業火の狂戦士' && selfWilled && allOthersAlive && !championStage && !assassinStage){
+      classChangeToFlameEmperor(f);
+      return; // 脱落させず、そのまま戦闘を続行させる
+    }
     f.state='fall';
     spawnParticles(f.x,f.y,'#ff8a3d',40,220,0.9,5,40);
     addShake(f.isPlayer?16:8);
@@ -2418,19 +3190,27 @@ function drawObstacleShadow(o){
   ctx.restore();
 }
 
+function houseSignInfo(o){
+  if(o.isShop) return { icon:'💰', color:'#ffd75e' };
+  if(o.houseType==='heal') return { icon:'➕', color:'#8fe08a' };
+  if(o.houseType==='smith') return { icon:'⚒️', color:'#ff9a5e' };
+  if(o.houseType==='gamble') return { icon:'🎲', color:'#c58bff' };
+  return { icon:null, color:null };
+}
 function drawBuilding(o){
   ctx.save();
   ctx.translate(o.x, o.y);
   const w=o.r*1.8, h=o.r*1.4;
   const occupied = !!(o.occupants && o.occupants.length>0);
   const damaged = o.hp < o.maxHp;
-  const shop = !!o.isShop;
-  ctx.fillStyle = damaged? (shop? '#2e2712':'#302620') : (shop? '#3a3016':'#3a2f26');
+  const sign = houseSignInfo(o);
+  const special = !!sign.icon;
+  ctx.fillStyle = damaged? (special? '#2e2712':'#302620') : (special? '#3a3016':'#3a2f26');
   ctx.fillRect(-w/2, -h*0.55, w, h*0.85);
-  ctx.strokeStyle = shop? 'rgba(180,140,30,0.65)' : 'rgba(0,0,0,0.55)';
+  ctx.strokeStyle = special? 'rgba(180,140,30,0.65)' : 'rgba(0,0,0,0.55)';
   ctx.lineWidth=2;
   ctx.strokeRect(-w/2, -h*0.55, w, h*0.85);
-  ctx.fillStyle = shop? '#4a3a12' : '#241a14';
+  ctx.fillStyle = special? '#4a3a12' : '#241a14';
   ctx.beginPath();
   ctx.moveTo(-w/2-10, -h*0.55);
   ctx.lineTo(0, -h*1.15);
@@ -2446,14 +3226,14 @@ function drawBuilding(o){
     ctx.stroke();
   }
   // 窓
-  ctx.fillStyle = shop? 'rgba(255,210,80,0.7)' : 'rgba(255,150,60,0.55)';
+  ctx.fillStyle = special? 'rgba(255,210,80,0.7)' : 'rgba(255,150,60,0.55)';
   ctx.fillRect(-6,-h*0.28,12,12);
-  // 店の看板（金貨マーク）
-  if(shop){
+  // 看板（機能種別を示すアイコン：店＝💰／回復＝➕／鍛冶屋＝⚒️／賭博場＝🎲）
+  if(sign.icon){
     ctx.font='15px serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
     ctx.shadowColor='#000'; ctx.shadowBlur=3;
-    ctx.fillStyle='#ffd75e';
-    ctx.fillText('💰', 0, -h*0.98);
+    ctx.fillStyle=sign.color;
+    ctx.fillText(sign.icon, 0, -h*0.98);
   }
   // 正面入口（ドア）：画面下側の壁の中央
   const doorW=16, doorH=18;
@@ -2596,6 +3376,40 @@ function drawWeapon(f){
       ctx.strokeStyle=f.accent; ctx.lineWidth=1.5;
       for(let i=0;i<6;i++){ const a=i/6*Math.PI*2; ctx.beginPath(); ctx.moveTo(38,0); ctx.lineTo(38+Math.cos(a)*9,Math.sin(a)*9); ctx.stroke(); }
       break;
+    case 'lightningsword':
+      ctx.save();
+      ctx.shadowColor = '#fff6b0'; ctx.shadowBlur = 15;
+      ctx.fillStyle = '#eaff9c'; ctx.fillRect(0,-2.5,46,5);
+      ctx.fillStyle = '#3a3a3a'; ctx.fillRect(-6,-4,8,8);
+      ctx.fillStyle = f.accent; ctx.beginPath(); ctx.arc(48,0,4,0,Math.PI*2); ctx.fill();
+      ctx.strokeStyle = '#fff6b0'; ctx.lineWidth = 1.4;
+      ctx.beginPath(); ctx.moveTo(18,-6); ctx.lineTo(25,-1); ctx.lineTo(20,1); ctx.lineTo(30,6); ctx.stroke();
+      ctx.restore();
+      break;
+    case 'windfan':
+      ctx.save();
+      ctx.strokeStyle = f.accent; ctx.lineWidth = 2.6;
+      ctx.beginPath(); ctx.arc(28,0,13,0.15,Math.PI*1.55); ctx.stroke();
+      ctx.globalAlpha = 0.35; ctx.fillStyle = f.accent;
+      ctx.beginPath(); ctx.arc(28,0,13,0,Math.PI*2); ctx.fill();
+      ctx.restore();
+      break;
+    case 'infernosword':
+      ctx.save();
+      ctx.shadowColor = '#ff8a3d'; ctx.shadowBlur = 20;
+      ctx.fillStyle = '#ffb347'; ctx.fillRect(0,-3.5,54,7);
+      ctx.fillStyle = '#5a1a08'; ctx.fillRect(-8,-6,10,12);
+      ctx.beginPath(); ctx.moveTo(54,-9); ctx.lineTo(68,0); ctx.lineTo(54,9); ctx.closePath();
+      ctx.fillStyle = '#ff5a1f'; ctx.fill();
+      // ゆらめく炎
+      ctx.globalAlpha = 0.7;
+      ctx.fillStyle = '#ffd27a';
+      for(let i=0;i<3;i++){
+        const fx = 12+i*16, fy = Math.sin((f.animT*7)+i)*4;
+        ctx.beginPath(); ctx.arc(fx,fy,4-i*0.6,0,Math.PI*2); ctx.fill();
+      }
+      ctx.restore();
+      break;
     case 'bow':
       // 弓本体（曲線）
       ctx.strokeStyle = '#6b4a2f'; ctx.lineWidth = 3;
@@ -2698,6 +3512,67 @@ function drawFighter(f){
     ctx.fillStyle = '#bdf0a0';
     ctx.shadowColor='#000'; ctx.shadowBlur=4;
     ctx.fillText('森', 0, -72);
+    ctx.restore();
+  }
+
+  if(f.isRaijin){
+    ctx.save();
+    const pulse = 0.5 + Math.sin(f.animT*9)*0.3;
+    ctx.globalAlpha = 0.55+pulse*0.3;
+    const g = ctx.createRadialGradient(0,-10,4,0,-10,42);
+    g.addColorStop(0, 'rgba(255,225,77,0.35)');
+    g.addColorStop(1, 'rgba(255,225,77,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(0,-10,42,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle = f.accent;
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(0,20, 25+pulse*3, 0, Math.PI*2); ctx.stroke();
+    ctx.font = "13px 'Noto Serif JP', serif";
+    ctx.textAlign='center';
+    ctx.fillStyle = '#fff3a0';
+    ctx.shadowColor='#000'; ctx.shadowBlur=4;
+    ctx.fillText('雷', 0, -72);
+    ctx.restore();
+  }
+
+  if(f.isFujin){
+    ctx.save();
+    const pulse = 0.5 + Math.sin(f.animT*6.5)*0.3;
+    ctx.globalAlpha = 0.5+pulse*0.25;
+    const g = ctx.createRadialGradient(0,-10,4,0,-10,40);
+    g.addColorStop(0, 'rgba(139,224,200,0.35)');
+    g.addColorStop(1, 'rgba(139,224,200,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(0,-10,40,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle = f.accent;
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(0,20, 24+pulse*3, 0, Math.PI*2); ctx.stroke();
+    ctx.font = "13px 'Noto Serif JP', serif";
+    ctx.textAlign='center';
+    ctx.fillStyle = '#c8fbe8';
+    ctx.shadowColor='#000'; ctx.shadowBlur=4;
+    ctx.fillText('風', 0, -72);
+    ctx.restore();
+  }
+
+  if(f.isFlameEmperor){
+    ctx.save();
+    const pulse = 0.5 + Math.sin(f.animT*11)*0.35;
+    ctx.globalAlpha = 0.6+pulse*0.3;
+    const g = ctx.createRadialGradient(0,-10,4,0,-10,54);
+    g.addColorStop(0, 'rgba(255,90,31,0.5)');
+    g.addColorStop(0.6, 'rgba(255,140,40,0.2)');
+    g.addColorStop(1, 'rgba(255,90,31,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(0,-10,54,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle = f.accent;
+    ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.arc(0,20, 30+pulse*4, 0, Math.PI*2); ctx.stroke();
+    ctx.font = "15px 'Noto Serif JP', serif";
+    ctx.textAlign='center';
+    ctx.fillStyle = '#ffd27a';
+    ctx.shadowColor='#000'; ctx.shadowBlur=5;
+    ctx.fillText('炎帝', 0, -78);
     ctx.restore();
   }
 
@@ -2925,6 +3800,30 @@ function drawProjectiles(){
       ctx.strokeStyle = 'rgba(255,255,255,.65)';
       ctx.lineWidth = 1.3;
       ctx.beginPath(); ctx.moveTo(-15,0); ctx.lineTo(-10,-3.4); ctx.moveTo(-15,0); ctx.lineTo(-10,3.4); ctx.stroke();
+    } else if(pr.isWind){
+      // 風神の空気砲：渦を巻くリング状の風の弾（ノックバック力の大きさを視覚化）
+      ctx.globalAlpha = clamp(pr.life/0.3,0,1)*0.6+0.4;
+      const glow = ctx.createRadialGradient(pr.x,pr.y,0,pr.x,pr.y,pr.r*1.6);
+      glow.addColorStop(0, 'rgba(139,224,200,0.25)');
+      glow.addColorStop(1, 'rgba(139,224,200,0)');
+      ctx.fillStyle = glow;
+      ctx.beginPath(); ctx.arc(pr.x,pr.y,pr.r*1.6,0,Math.PI*2); ctx.fill();
+      ctx.strokeStyle = pr.color;
+      ctx.lineWidth = 3;
+      const spin = (pr.life*10)%(Math.PI*2);
+      ctx.beginPath(); ctx.arc(pr.x,pr.y,pr.r*0.85,spin,spin+Math.PI*1.4); ctx.stroke();
+      ctx.beginPath(); ctx.arc(pr.x,pr.y,pr.r*0.5,-spin,-spin+Math.PI*1.4); ctx.stroke();
+    } else if(pr.isHoming){
+      // 炎帝の火炎魔法：追尾弾。燃える火球として、揺らめく炎の粒子付きで描く
+      ctx.globalAlpha = clamp(pr.life/0.3,0,1)*0.7+0.3;
+      const glow = ctx.createRadialGradient(pr.x,pr.y,0,pr.x,pr.y,pr.r*2.4);
+      glow.addColorStop(0, '#fff3c2');
+      glow.addColorStop(0.45, '#ff8a3d');
+      glow.addColorStop(1, 'rgba(255,90,31,0)');
+      ctx.fillStyle = glow;
+      ctx.beginPath(); ctx.arc(pr.x,pr.y,pr.r*2.4,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle='#fff3c2';
+      ctx.beginPath(); ctx.arc(pr.x,pr.y,pr.r*0.55,0,Math.PI*2); ctx.fill();
     } else {
       ctx.globalAlpha = clamp(pr.life/0.3,0,1)*0.6+0.4;
       const glow = ctx.createRadialGradient(pr.x,pr.y,0,pr.x,pr.y,pr.r*2.2);
@@ -2949,8 +3848,24 @@ function updateHUD(){
       closeShopUI();
     }
   }
+  if(smithOpenFor){
+    if(!p.alive || matchOver || !fightLive || p.hidingIn!==smithOpenFor || !smithOpenFor.alive){
+      closeSmithUI();
+    }
+  }
+  if(gambleOpenFor){
+    if(!p.alive || matchOver || !fightLive || p.hidingIn!==gambleOpenFor || !gambleOpenFor.alive){
+      closeGambleUI();
+    }
+  }
+  if(healOpenFor){
+    if(!p.alive || matchOver || !fightLive || p.hidingIn!==healOpenFor || !healOpenFor.alive){
+      closeHealUI();
+    }
+  }
   let statusIcons = '';
   if(p.hidingIn) statusIcons += ' 🏠';
+  if(p.forgeLevel>0) statusIcons += ' ⚒️Lv'+p.forgeLevel;
   if(p.mounted) statusIcons += ' 🐴';
   if(p.hasExcalibur) statusIcons += ' ⚔️';
   if(p.hasHelmet) statusIcons += ' ⛑️';
@@ -2961,6 +3876,7 @@ function updateHUD(){
   if(p.allyRef && p.allyRef.alive) statusIcons += ' 👥';
   if(p.poisonTimer>0) statusIcons += ' ☠️';
   if(p.slowTimer>0) statusIcons += championStage? ' 🥶' : ' 💩';
+  if(p.isFlameEmperor) statusIcons += ' 🔥検証';
   document.getElementById('p1name').textContent = p.name + statusIcons;
   document.getElementById('p1hp').style.width = (p.hp/p.maxHp*100)+'%';
   document.getElementById('p1mp').style.width = (p.mp/p.maxMp*100)+'%';
@@ -2996,6 +3912,22 @@ function updateHUD(){
   if(championStage && championRef){
     const bossHpEl = document.getElementById('bossHp');
     if(bossHpEl) bossHpEl.style.width = Math.max(0,(championRef.hp/championRef.maxHp*100))+'%';
+  }
+
+  if(assassinStage){
+    const apEl = document.getElementById('assassinPanel');
+    if(apEl) apEl.style.display = '';
+    if(raijinRef){
+      const rHp = document.getElementById('raijinHp');
+      if(rHp) rHp.style.width = Math.max(0,(raijinRef.hp/raijinRef.maxHp*100))+'%';
+    }
+    if(fujinRef){
+      const fHp = document.getElementById('fujinHp');
+      if(fHp) fHp.style.width = Math.max(0,(fujinRef.hp/fujinRef.maxHp*100))+'%';
+    }
+  } else {
+    const apEl = document.getElementById('assassinPanel');
+    if(apEl) apEl.style.display = 'none';
   }
 
   setCd('btnAttack', p.atkCooldown, p.atkCdMax);
